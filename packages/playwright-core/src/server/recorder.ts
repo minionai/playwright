@@ -464,7 +464,8 @@ class ContextRecorder extends EventEmitter {
         action: {
           name: 'closePage',
           signals: [],
-        }
+          ts: Date.now()
+        },
       });
       this._pageAliases.delete(page);
     });
@@ -488,6 +489,7 @@ class ContextRecorder extends EventEmitter {
           name: 'openPage',
           url: page.mainFrame().url(),
           signals: [],
+          ts: Date.now()
         }
       });
     }

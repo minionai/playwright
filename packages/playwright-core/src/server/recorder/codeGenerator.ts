@@ -153,6 +153,7 @@ export class CodeGenerator extends EventEmitter {
           name: 'navigate',
           url: frame.url(),
           signals: [],
+          ts: Date.now()
         },
       });
     }

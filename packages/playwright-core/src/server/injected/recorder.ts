@@ -290,6 +290,7 @@ class Recorder {
         selector: this._activeModel!.selector,
         signals: [],
         files: [...((target as HTMLInputElement).files || [])].map(file => file.name),
+        ts: Date.now()
       });
       return;
     }
@@ -308,6 +309,7 @@ class Recorder {
         selector: this._activeModel!.selector,
         signals: [],
         text: target.isContentEditable ? target.innerText : (target as HTMLInputElement).value,
+        ts: Date.now()
       });
     }
 
@@ -407,7 +409,10 @@ class Recorder {
   private async _performAction(action: actions.Action) {
     this._clearHighlight();
     this._performingAction = true;
-    await globalThis.__pw_recorderPerformAction(action).catch(() => {});
+    await globalThis.__pw_recorderPerformAction({
+      ...action,
+      ts: Date.now()
+    }).catch(() => {});
     this._performingAction = false;
 
     // If that was a keyboard action, it similarly requires new selectors for active model.

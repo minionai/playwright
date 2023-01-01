@@ -31,6 +31,7 @@ export type ActionName =
 export type ActionBase = {
   name: ActionName,
   signals: Signal[],
+  ts?: number;
 };
 
 export type ClickAction = ActionBase & {
