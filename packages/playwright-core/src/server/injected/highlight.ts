@@ -51,6 +51,7 @@ export class Highlight {
     this._glassPaneElement.style.left = '0';
     this._glassPaneElement.style.zIndex = '2147483647';
     this._glassPaneElement.style.pointerEvents = 'none';
+    // this._glassPaneElement.style.display = 'none';
     this._glassPaneElement.style.display = 'flex';
 
     this._actionPointElement = document.createElement('x-pw-action-point');
@@ -147,7 +148,8 @@ export class Highlight {
   updateHighlight(elements: Element[], selector: string, isRecording: boolean) {
     let color: string;
     if (isRecording)
-      color = '#dc6f6f7f';
+      color = 'rgba(37, 99, 235, 0.2)';
+      // color = '#dc6f6f7f';
     else
       color = elements.length > 1 ? '#f6b26b7f' : '#6fa8dc7f';
     this._innerUpdateHighlight(elements, { color, tooltipText: selector ? asLocator(this._language, selector) : '' });
@@ -179,7 +181,8 @@ export class Highlight {
         tooltipElement.textContent = options.tooltipText + suffix;
         tooltipElement.style.top = '0';
         tooltipElement.style.left = '0';
-        tooltipElement.style.display = 'flex';
+        // tooltipElement.style.display = 'flex';
+        tooltipElement.style.display = 'none';
       }
       this._highlightEntries.push({ targetElement: elements[i], tooltipElement, highlightElement, tooltipText: options.tooltipText });
     }
