@@ -1555,6 +1555,7 @@ export type BrowserContextRecorderSupplementEnableParams = {
   device?: string,
   saveStorage?: string,
   outputFile?: string,
+  outputJsonFile?: string,
   handleSIGINT?: boolean,
   omitCallTracking?: boolean,
 };
@@ -1567,6 +1568,7 @@ export type BrowserContextRecorderSupplementEnableOptions = {
   device?: string,
   saveStorage?: string,
   outputFile?: string,
+  outputJsonFile?: string,
   handleSIGINT?: boolean,
   omitCallTracking?: boolean,
 };

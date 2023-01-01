@@ -165,4 +165,8 @@ export class CodeGenerator extends EventEmitter {
     const text = [header, ...actions, footer].join('\n');
     return { header, footer, actions, text };
   }
+
+  getActions() {
+    return this._actions;
+  }
 }

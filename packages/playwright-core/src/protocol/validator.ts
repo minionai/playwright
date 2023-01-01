@@ -845,6 +845,7 @@ scheme.BrowserContextRecorderSupplementEnableParams = tObject({
   device: tOptional(tString),
   saveStorage: tOptional(tString),
   outputFile: tOptional(tString),
+  outputJsonFile: tOptional(tString),
   handleSIGINT: tOptional(tBoolean),
   omitCallTracking: tOptional(tBoolean),
 });
