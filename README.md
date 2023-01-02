@@ -1,3 +1,20 @@
+# minion-playwright
+
+## Usage
+
+```bash
+PW_CODEGEN_NO_INSPECTOR=1 playwright codegen --output-json ./outputJson.json --seedrandom demo.playwright.dev/todomvc
+```
+
+## Additional `playwright codegen` flags
+
+- `--output-json`: Saves internal `CodeGenerator` [_actions field](https://github.com/minionai/playwright/blob/main/packages/playwright-core/src/server/recorder/codeGenerator.ts#L32) after process ends. Similar to `--output`.
+- `--seedrandom`: Seeds `Math.random()` using `https://github.com/davidbau/seedrandom`
+
+<hr />
+
+Below is original readme.
+
 # 🎭 Playwright
 
 [![npm version](https://img.shields.io/npm/v/playwright.svg)](https://www.npmjs.com/package/playwright) <!-- GEN:chromium-version-badge -->[![Chromium version](https://img.shields.io/badge/chromium-109.0.5414.61-blue.svg?logo=google-chrome)](https://www.chromium.org/Home)<!-- GEN:stop --> <!-- GEN:firefox-version-badge -->[![Firefox version](https://img.shields.io/badge/firefox-107.0-blue.svg?logo=firefoxbrowser)](https://www.mozilla.org/en-US/firefox/new/)<!-- GEN:stop --> <!-- GEN:webkit-version-badge -->[![WebKit version](https://img.shields.io/badge/webkit-16.4-blue.svg?logo=safari)](https://webkit.org/)<!-- GEN:stop -->
