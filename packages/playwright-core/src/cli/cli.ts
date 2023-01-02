@@ -39,6 +39,7 @@ import { GridServer } from '../grid/gridServer';
 import type { Executable } from '../server';
 import { registry, writeDockerVersion } from '../server';
 import { addDockerCLI } from '../containers/docker';
+import * as seedRandomSource from '../generated/seedRandomSource';
 
 const packageJSON = require('../../package.json');
 
@@ -71,6 +72,7 @@ commandWithOpenOptions('codegen [url]', 'open page and generate code for user ac
       ['--target <language>', `language to generate, one of javascript, playwright-test, python, python-async, python-pytest, csharp, csharp-mstest, csharp-nunit, java`, codegenId()],
       ['--output-json <file name>', 'saves the json representation of CodeGenerator actions to a file'],
       ['--save-trace <filename>', 'record a trace for the session and save it to a file'],
+      ['--seedrandom', 'seed Math.random() with the page URL'],
     ]).action(function(url, options) {
   codegen(options, url, options.target, options.output, options.outputJson).catch(logErrorAndExit);
 }).addHelpText('afterAll', `
@@ -390,6 +392,7 @@ type Options = {
   timezone?: string;
   viewportSize?: string;
   userAgent?: string;
+  seedrandom?: boolean;
 };
 
 type CaptureOptions = {
@@ -610,6 +613,11 @@ async function codegen(options: Options, url: string | undefined, language: stri
     outputJsonFile: outputJsonFile ? path.resolve(outputJsonFile) : undefined,
     handleSIGINT: false,
   });
+  if (options.seedrandom) {
+    context.addInitScript({
+      content: seedRandomSource.source
+    });
+  }
   await openPage(context, url);
   if (process.env.PWTEST_CLI_EXIT)
     await Promise.all(context.pages().map(p => p.close()));

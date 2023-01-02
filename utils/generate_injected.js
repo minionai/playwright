@@ -27,6 +27,7 @@ const injectedScripts = [
   path.join(ROOT, 'packages', 'playwright-core', 'src', 'server', 'injected', 'injectedScript.ts'),
   path.join(ROOT, 'packages', 'playwright-core', 'src', 'server', 'injected', 'consoleApi.ts'),
   path.join(ROOT, 'packages', 'playwright-core', 'src', 'server', 'injected', 'recorder.ts'),
+  path.join(ROOT, 'packages', 'playwright-core', 'src', 'server', 'injected', 'seedRandom.ts'),
 ];
 
 const modulePrefix = `"use strict";
