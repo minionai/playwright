@@ -347,7 +347,7 @@ class ContextRecorder extends EventEmitter {
   private _params: channels.BrowserContextRecorderSupplementEnableParams;
   private _recorderSources: Source[];
   private _throttledOutputFile: ThrottledFile | null = null;
-  private _throttledOutputJsonFile: ThrottledFile | null = null;
+  private _throttledOutputActions: ThrottledFile | null = null;
   private _orderedLanguages: LanguageGenerator[] = [];
   private _testIdAttributeName: string = 'data-testid';
 
@@ -358,10 +358,10 @@ class ContextRecorder extends EventEmitter {
     this._recorderSources = [];
     const language = params.language || context._browser.options.sdkLanguage;
     this.setOutput(language, params.outputFile);
-    this._throttledOutputJsonFile = params.outputJsonFile ? new ThrottledFile(params.outputJsonFile) : null;
+    this._throttledOutputActions = params.saveActions ? new ThrottledFile(params.saveActions) : null;
     const generator = new CodeGenerator(context._browser.options.name, params.mode === 'recording', params.launchOptions || {}, params.contextOptions || {}, params.device, params.saveStorage);
     generator.on('change', () => {
-      this._throttledOutputJsonFile?.setContent(JSON.stringify(generator.getActions(), null, 2));
+      this._throttledOutputActions?.setContent(JSON.stringify(generator.getActions(), null, 2));
       this._recorderSources = [];
       for (const languageGenerator of this._orderedLanguages) {
         const { header, footer, actions, text } = generator.generateStructure(languageGenerator);
@@ -389,11 +389,11 @@ class ContextRecorder extends EventEmitter {
     });
     context.on(BrowserContext.Events.BeforeClose, () => {
       this._throttledOutputFile?.flush();
-      this._throttledOutputJsonFile?.flush();
+      this._throttledOutputActions?.flush();
     });
     process.on('exit', () => {
       this._throttledOutputFile?.flush();
-      this._throttledOutputJsonFile?.flush();
+      this._throttledOutputActions?.flush();
     });
     this._generator = generator;
   }

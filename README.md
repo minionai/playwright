@@ -8,7 +8,7 @@ PW_CODEGEN_NO_INSPECTOR=1 playwright codegen --output-json ./outputJson.json --s
 
 ## Additional `playwright codegen` flags
 
-- `--output-json`: Saves internal `CodeGenerator` [_actions field](https://github.com/minionai/playwright/blob/main/packages/playwright-core/src/server/recorder/codeGenerator.ts#L32) after process ends. Similar to `--output`.
+- `--save-actions <filename>`: Saves internal `CodeGenerator` [_actions field](https://github.com/minionai/playwright/blob/main/packages/playwright-core/src/server/recorder/codeGenerator.ts#L32) after process ends. Similar to `--output`.
 - `--seedrandom`: Seeds `Math.random()` using `https://github.com/davidbau/seedrandom`
 
 <hr />

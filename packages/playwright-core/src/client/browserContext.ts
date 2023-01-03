@@ -377,10 +377,10 @@ export class BrowserContext extends ChannelOwner<channels.BrowserContextChannel>
       launchOptions?: LaunchOptions,
       contextOptions?: BrowserContextOptions,
       device?: string,
+      saveActions?: string,
       saveStorage?: string,
       mode?: 'recording' | 'inspecting',
       outputFile?: string,
-      outputJsonFile?: string,
       handleSIGINT?: boolean,
   }) {
     await this._channel.recorderSupplementEnable(params);

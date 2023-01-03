@@ -68,13 +68,13 @@ Examples:
 
 commandWithOpenOptions('codegen [url]', 'open page and generate code for user actions',
     [
-      ['-o, --output <file name>', 'saves the generated script to a file'],
+      ['-o, --output <filename>', 'saves the generated script to a file'],
       ['--target <language>', `language to generate, one of javascript, playwright-test, python, python-async, python-pytest, csharp, csharp-mstest, csharp-nunit, java`, codegenId()],
-      ['--output-json <file name>', 'saves the json representation of CodeGenerator actions to a file'],
+      ['--save-actions <filename>', 'saves the json representation of CodeGenerator actions to a file'],
       ['--save-trace <filename>', 'record a trace for the session and save it to a file'],
       ['--seedrandom', 'seed Math.random() with the page URL'],
     ]).action(function(url, options) {
-  codegen(options, url, options.target, options.output, options.outputJson).catch(logErrorAndExit);
+  codegen(options, url, options.target, options.output).catch(logErrorAndExit);
 }).addHelpText('afterAll', `
 Examples:
 
@@ -384,6 +384,7 @@ type Options = {
   proxyServer?: string;
   proxyBypass?: string;
   blockServiceWorkers?: boolean;
+  saveActions?: string;
   saveHar?: string;
   saveHarGlob?: string;
   saveStorage?: string;
@@ -600,7 +601,7 @@ async function open(options: Options, url: string | undefined, language: string)
     await Promise.all(context.pages().map(p => p.close()));
 }
 
-async function codegen(options: Options, url: string | undefined, language: string, outputFile?: string, outputJsonFile?: string) {
+async function codegen(options: Options, url: string | undefined, language: string, outputFile?: string) {
   const { context, launchOptions, contextOptions } = await launchContext(options, !!process.env.PWTEST_CLI_HEADLESS, process.env.PWTEST_CLI_EXECUTABLE_PATH);
   await context._enableRecorder({
     language,
@@ -608,9 +609,9 @@ async function codegen(options: Options, url: string | undefined, language: stri
     contextOptions,
     device: options.device,
     saveStorage: options.saveStorage,
+    saveActions: options.saveActions ? path.resolve(options.saveActions) : undefined,
     mode: 'recording',
     outputFile: outputFile ? path.resolve(outputFile) : undefined,
-    outputJsonFile: outputJsonFile ? path.resolve(outputJsonFile) : undefined,
     handleSIGINT: false,
   });
   if (options.seedrandom) {

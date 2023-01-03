@@ -1065,9 +1065,9 @@ BrowserContext:
         launchOptions: json?
         contextOptions: json?
         device: string?
+        saveActions: string?
         saveStorage: string?
         outputFile: string?
-        outputJsonFile: string?
         handleSIGINT: boolean?
         omitCallTracking: boolean?
 
