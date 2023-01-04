@@ -591,6 +591,8 @@ class ContextRecorder extends EventEmitter {
         await frame.instrumentation.onBeforeCall(frame, callMetadata);
         await cb(callMetadata);
       } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error('failed to perform action: ' + action + '');
         callMetadata.endTime = monotonicTime();
         await frame.instrumentation.onAfterCall(frame, callMetadata);
         this._generator.performedActionFailed(actionInContext);

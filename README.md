@@ -3,13 +3,20 @@
 ## Usage
 
 ```bash
-PW_CODEGEN_NO_INSPECTOR=1 playwright codegen --output-json ./outputJson.json --seedrandom demo.playwright.dev/todomvc
+PW_CODEGEN_NO_INSPECTOR=1 npx playwright codegen --output-json ./outputJson.json --seedrandom demo.playwright.dev/todomvc
 ```
 
 ## Additional `playwright codegen` flags
 
 - `--save-actions <filename>`: Saves internal `CodeGenerator` [_actions field](https://github.com/minionai/playwright/blob/main/packages/playwright-core/src/server/recorder/codeGenerator.ts#L32) after process ends. Similar to `--output`.
 - `--seedrandom`: Seeds `Math.random()` using `https://github.com/davidbau/seedrandom`
+
+## Useful CLI environment variables
+
+- `CDP_ENDPOINT_URL=<CDP http url>`: `connectOverCDP({ endpointURL: process.env.CDP_ENDPOINT_URL })` instead of launching browser
+- `CDP_WS_ENDPOINT=<CDP ws url>`: `connectOverCDP({ wsEndpoint: process.env.CDP_WS_ENDPOINT })` instead of launching browser
+- `SKIP_OPEN_PAGE=1`: skips opening page. Useful if connecting over CDP
+- `PW_CODEGEN_NO_INSPECTOR=1`: disables inspector in `playwright codegen`
 
 <hr />
 

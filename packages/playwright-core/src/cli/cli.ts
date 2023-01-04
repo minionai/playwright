@@ -442,7 +442,13 @@ async function launchContext(options: Options, headless: boolean, executablePath
       launchOptions.proxy.bypass = options.proxyBypass;
   }
 
-  const browser = await browserType.launch(launchOptions);
+  const browser = await (async () => {
+    if (process.env.CDP_ENDPOINT_URL)
+      return browserType.connectOverCDP({ endpointURL: process.env.CDP_ENDPOINT_URL }) as unknown as Promise<Browser>;
+    else if (process.env.CDP_WS_ENDPOINT)
+      return browserType.connectOverCDP({ wsEndpoint: process.env.CDP_WS_ENDPOINT }) as unknown as Promise<Browser>;
+    return browserType.launch(launchOptions);
+  })();
 
   if (process.env.PWTEST_CLI_EXIT) {
     const logs: string[] = [];
@@ -526,8 +532,11 @@ async function launchContext(options: Options, headless: boolean, executablePath
   }
 
   // Close app when the last window closes.
-
-  const context = await browser.newContext(contextOptions);
+  const context = await (async () => {
+    if (process.env.CDP_ENDPOINT_URL || process.env.CDP_WS_ENDPOINT)
+      return browser.contexts()[0];
+    return browser.newContext(contextOptions);
+  })();
 
   let closingBrowser = false;
   async function closeBrowser() {
@@ -576,6 +585,8 @@ async function launchContext(options: Options, headless: boolean, executablePath
 }
 
 async function openPage(context: BrowserContext, url: string | undefined): Promise<Page> {
+  if (process.env.SKIP_OPEN_PAGE === '1')
+    return context.pages()?.[0];
   const page = await context.newPage();
   if (url) {
     if (fs.existsSync(url))
@@ -620,6 +631,7 @@ async function codegen(options: Options, url: string | undefined, language: stri
     });
   }
   await openPage(context, url);
+
   if (process.env.PWTEST_CLI_EXIT)
     await Promise.all(context.pages().map(p => p.close()));
 }
