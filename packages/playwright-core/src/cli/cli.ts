@@ -405,7 +405,33 @@ type CaptureOptions = {
 async function launchContext(options: Options, headless: boolean, executablePath?: string): Promise<{ browser: Browser, browserName: string, launchOptions: LaunchOptions, contextOptions: BrowserContextOptions, context: BrowserContext }> {
   validateOptions(options);
   const browserType = lookupBrowserType(options);
-  const launchOptions: LaunchOptions = { headless, executablePath };
+  const launchOptions: LaunchOptions = {
+    headless,
+    executablePath,
+    args: [
+      '--no-sandbox',
+      '--disable-background-networking',
+      '--enable-features=NetworkService,NetworkServiceInProcess',
+      '--disable-setuid-sandbox',
+      '--disable-extensions',
+      '--disable-sync',
+      '--disable-breakpad',
+      '--disable-hang-monitor',
+      '--disable-features=Translate',
+      '--disable-blink-features=AutomationControlled',
+      '--mute-audio',
+      '--disable-gpu',
+      '--use-gl=swiftshader',
+      '--disable-dev-shm-usage',
+      `--app="${process.env.START_URL}"`,
+      `--user-agent="${process.env.USER_AGENT}"`,
+      '--kiosk',
+      '--remote-debugging-port=9333'
+    ],
+    env: {
+      DISPLAY: ':1',
+    }
+  };
   if (options.channel)
     launchOptions.channel = options.channel as any;
   launchOptions.handleSIGINT = false;
@@ -533,7 +559,7 @@ async function launchContext(options: Options, headless: boolean, executablePath
 
   // Close app when the last window closes.
   const context = await (async () => {
-    if (process.env.CDP_ENDPOINT_URL || process.env.CDP_WS_ENDPOINT)
+    if (process.env.SKIP_OPEN_PAGE)
       return browser.contexts()[0];
     return browser.newContext(contextOptions);
   })();
