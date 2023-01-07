@@ -1426,6 +1426,13 @@ scheme.FrameIsVisibleParams = tObject({
 scheme.FrameIsVisibleResult = tObject({
   value: tBoolean,
 });
+scheme.FrameViewportRatioParams = tObject({
+  selector: tString,
+  strict: tOptional(tBoolean),
+});
+scheme.FrameViewportRatioResult = tObject({
+  value: tNumber,
+});
 scheme.FrameIsEditableParams = tObject({
   selector: tString,
   strict: tOptional(tBoolean),

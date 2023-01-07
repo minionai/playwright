@@ -1318,6 +1318,22 @@ export class Frame extends SdkObject {
     }, this._page._timeoutSettings.timeout({}));
   }
 
+  async viewportRatio(metadata: CallMetadata, selector: string, options: types.StrictOptions = {}): Promise<number> {
+    const controller = new ProgressController(metadata, this);
+    return controller.run(async progress => {
+      progress.log(`  calculating viewport ratio of ${this._asLocator(selector)}`);
+      const resolved = await this._resolveInjectedForSelector(progress, selector, options);
+      if (!resolved)
+        return 0;
+      return await resolved.injected.evaluate(async (injected, { info }) => {
+        const element = injected.querySelector(info.parsed, document, info.strict);
+        if (!element)
+          return 0;
+        return await injected.viewportRatio(element);
+      }, { info: resolved.info });
+    }, this._page._timeoutSettings.timeout({}));
+  }
+
   async isHidden(metadata: CallMetadata, selector: string, options: types.StrictOptions = {}): Promise<boolean> {
     return !(await this.isVisible(metadata, selector, options));
   }
@@ -1426,7 +1442,7 @@ export class Frame extends SdkObject {
         const injected = await context.injectedScript();
         progress.throwIfAborted();
 
-        const { log, matches, received } = await injected.evaluate((injected, { info, options, snapshotName }) => {
+        const { log, matches, received } = await injected.evaluate(async (injected, { info, options, snapshotName }) => {
           const elements = info ? injected.querySelectorAll(info.parsed, document) : [];
           const isArray = options.expression === 'to.have.count' || options.expression.endsWith('.array');
           let log = '';
@@ -1438,7 +1454,7 @@ export class Frame extends SdkObject {
             log = `  locator resolved to ${injected.previewNode(elements[0])}`;
           if (snapshotName)
             injected.markTargetElements(new Set(elements), snapshotName);
-          return { log, ...injected.expect(elements[0], options, elements) };
+          return { log, ...(await injected.expect(elements[0], options, elements)) };
         }, { info, options, snapshotName: progress.metadata.afterSnapshot });
 
         if (log)
@@ -1702,7 +1718,17 @@ export class Frame extends SdkObject {
 
       // Clean Service Workers
       const registrations = navigator.serviceWorker ? await navigator.serviceWorker.getRegistrations() : [];
-      await Promise.all(registrations.map(r => r.unregister())).catch(() => {});
+      await Promise.all(registrations.map(async r => {
+        // Heuristic for service workers that stalled during main script fetch or importScripts:
+        // Waiting for them to finish unregistering takes ages so we do not await.
+        // However, they will unregister immediately after fetch finishes and should not affect next page load.
+        // Unfortunately, loading next page in Chromium still takes 5 seconds waiting for
+        // some operation on this bogus service worker to finish.
+        if (!r.installing && !r.waiting && !r.active)
+          r.unregister().catch(() => {});
+        else
+          await r.unregister().catch(() => {});
+      }));
 
       // Clean IndexedDB
       for (const db of await indexedDB.databases?.() || []) {
