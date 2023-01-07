@@ -229,7 +229,7 @@ function formatObject(value: any, indent = '    ', name = ''): string {
   }
   if (Array.isArray(value))
     return `new[] { ${value.map(o => formatObject(o, indent, name)).join(', ')} }`;
-  if (typeof value === 'object') {
+  if (typeof value === 'object' && value) {
     const keys = Object.keys(value).filter(key => value[key] !== undefined).sort();
     if (!keys.length)
       return name ? `new ${getClassName(name)}` : '';

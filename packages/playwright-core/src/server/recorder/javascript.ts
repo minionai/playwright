@@ -195,7 +195,7 @@ function formatObject(value: any, indent = '  '): string {
     return quote(value);
   if (Array.isArray(value))
     return `[${value.map(o => formatObject(o)).join(', ')}]`;
-  if (typeof value === 'object') {
+  if (typeof value === 'object' && value) {
     const keys = Object.keys(value).filter(key => value[key] !== undefined).sort();
     if (!keys.length)
       return '{}';

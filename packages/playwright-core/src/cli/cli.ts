@@ -557,6 +557,11 @@ async function launchContext(options: Options, headless: boolean, executablePath
     contextOptions.serviceWorkers = 'block';
   }
 
+  if (process.env.FORCE_FLEXIBLE_VIEWPORT) {
+    delete contextOptions.deviceScaleFactor;
+    contextOptions.viewport = null;
+  }
+
   // Close app when the last window closes.
   const context = await (async () => {
     if (process.env.SKIP_OPEN_PAGE)
