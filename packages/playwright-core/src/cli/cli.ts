@@ -408,29 +408,8 @@ async function launchContext(options: Options, headless: boolean, executablePath
   const launchOptions: LaunchOptions = {
     headless,
     executablePath,
-    args: [
-      '--no-sandbox',
-      '--disable-background-networking',
-      '--enable-features=NetworkService,NetworkServiceInProcess',
-      '--disable-setuid-sandbox',
-      '--disable-extensions',
-      '--disable-sync',
-      '--disable-breakpad',
-      '--disable-hang-monitor',
-      '--disable-features=Translate',
-      '--disable-blink-features=AutomationControlled',
-      '--mute-audio',
-      '--disable-gpu',
-      '--use-gl=swiftshader',
-      '--disable-dev-shm-usage',
-      `--app=${process.env.START_URL}`,
-      `--user-agent=${process.env.USER_AGENT}`,
-      // `--kiosk=${process.env.KIOSK}`,
-      '--remote-debugging-port=9333'
-    ],
-    env: {
-      DISPLAY: ':1',
-    }
+    args: JSON.parse(process.env.PW_LAUNCHER_ARGS || '[]'),
+    env: JSON.parse(process.env.PW_LAUNCHER_ENV || '{}'),
   };
   if (options.channel)
     launchOptions.channel = options.channel as any;

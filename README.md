@@ -19,6 +19,8 @@ PW_CODEGEN_NO_INSPECTOR=1 npx playwright codegen --output-json ./outputJson.json
 - `PW_CODEGEN_NO_INSPECTOR=1`: disables inspector in `playwright codegen`
 - `FORCE_FLEXIBLE_VIEWPORT=1`: forces flexible viewport
 - `PW_CODEGEN_DISABLE_HIGHLIGHT`: disables highlight in `playwright codegen`
+- `PW_LAUNCHER_ARGS`: passes args to `launchContext()` (`string[]`)
+- `PW_LAUNCHER_ENV`: passes env to `launchContext()` (`Record<string, string>`)
 
 <hr />
 
