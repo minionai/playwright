@@ -160,8 +160,8 @@ export class CodeGenerator extends EventEmitter {
   }
 
   generateStructure(languageGenerator: LanguageGenerator) {
-    const header = process.env.PW_DISABLE_CODEGEN_HEADER ? null : languageGenerator.generateHeader(this._options);
-    const footer = process.env.PW_DISABLE_CODEGEN_FOOTER ? null : languageGenerator.generateFooter(this._options.saveStorage);
+    const header = process.env.PW_DISABLE_CODEGEN_HEADER ? undefined : languageGenerator.generateHeader(this._options);
+    const footer = process.env.PW_DISABLE_CODEGEN_FOOTER ? undefined : languageGenerator.generateFooter(this._options.saveStorage);
     const actions = this._actions.map(a => languageGenerator.generateAction(a)).filter(Boolean);
     const text = [header, ...actions, footer].filter(Boolean).join('\n');
     return { header, footer, actions, text };
