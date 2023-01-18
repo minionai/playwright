@@ -21,6 +21,8 @@ PW_CODEGEN_NO_INSPECTOR=1 npx playwright codegen --output-json ./outputJson.json
 - `PW_CODEGEN_DISABLE_HIGHLIGHT`: disables highlight in `playwright codegen`
 - `PW_LAUNCHER_ARGS`: passes args to `launchContext()` (`string[]`)
 - `PW_LAUNCHER_ENV`: passes env to `launchContext()` (`Record<string, string>`)
+- `PW_DISABLE_CODEGEN_HEADER`: disable codegen header
+- `PW_DISABLE_CODEGEN_FOOTER`: disable codegen footer
 
 <hr />
 
