@@ -423,9 +423,9 @@ async function launchContext(options: Options, headless: boolean, executablePath
       '--disable-gpu',
       '--use-gl=swiftshader',
       '--disable-dev-shm-usage',
-      `--app="${process.env.START_URL}"`,
-      `--user-agent="${process.env.USER_AGENT}"`,
-      `--kiosk="${process.env.KIOSK}"`,
+      `--app=${process.env.START_URL}`,
+      `--user-agent=${process.env.USER_AGENT}`,
+      `--kiosk=${process.env.KIOSK}`,
       '--remote-debugging-port=9333'
     ],
     env: {
