@@ -18,6 +18,7 @@ PW_CODEGEN_NO_INSPECTOR=1 npx playwright codegen --output-json ./outputJson.json
 - `SKIP_OPEN_PAGE=1`: skips opening page. Useful if connecting over CDP
 - `PW_CODEGEN_NO_INSPECTOR=1`: disables inspector in `playwright codegen`
 - `FORCE_FLEXIBLE_VIEWPORT=1`: forces flexible viewport
+- `PW_CODEGEN_DISABLE_HIGHLIGHT`: disables highlight in `playwright codegen`
 
 <hr />
 

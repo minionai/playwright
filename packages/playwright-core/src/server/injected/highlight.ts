@@ -146,12 +146,11 @@ export class Highlight {
   }
 
   updateHighlight(elements: Element[], selector: string, isRecording: boolean) {
-    let color: string;
-    if (isRecording)
-      color = 'rgba(37, 99, 235, 0.2)';
-      // color = '#dc6f6f7f';
-    else
-      color = elements.length > 1 ? '#f6b26b7f' : '#6fa8dc7f';
+    let color = 'transparent';
+    if (isRecording) {
+      if (!(window as any).__PW_DISABLE_HIGHLIGHT)
+        color = 'rgba(37, 99, 235, 0.2)';
+    } else {color = elements.length > 1 ? '#f6b26b7f' : '#6fa8dc7f';}
     this._innerUpdateHighlight(elements, { color, tooltipText: selector ? asLocator(this._language, selector) : '' });
   }
 

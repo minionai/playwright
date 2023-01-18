@@ -661,6 +661,11 @@ async function codegen(options: Options, url: string | undefined, language: stri
       content: seedRandomSource.source
     });
   }
+  if (process.env.PW_CODEGEN_DISABLE_HIGHLIGHT) {
+    context.addInitScript({
+      content: `window.__PW_DISABLE_HIGHLIGHT = true;`
+    });
+  }
   await openPage(context, url);
 
   if (process.env.PWTEST_CLI_EXIT)
