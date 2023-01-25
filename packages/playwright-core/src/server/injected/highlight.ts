@@ -81,6 +81,7 @@ export class Highlight {
           max-width: 600px;
           padding: 3.2px 5.12px 3.2px;
           position: absolute;
+          visibility: hidden;
           top: 0;
         }
         x-pw-action-point {
@@ -150,7 +151,7 @@ export class Highlight {
     if (isRecording) {
       if (!(window as any).__PW_DISABLE_HIGHLIGHT)
         color = 'rgba(37, 99, 235, 0.2)';
-    } else {color = elements.length > 1 ? '#f6b26b7f' : '#6fa8dc7f';}
+    } else { color = elements.length > 1 ? '#f6b26b7f' : '#6fa8dc7f'; }
     this._innerUpdateHighlight(elements, { color, tooltipText: selector ? asLocator(this._language, selector) : '' });
   }
 
