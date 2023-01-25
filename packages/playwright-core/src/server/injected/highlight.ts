@@ -173,7 +173,7 @@ export class Highlight {
       this._glassPaneShadow.appendChild(highlightElement);
 
       let tooltipElement;
-      if (options.tooltipText) {
+      if (!(window as any).__PW_DISABLE_TOOLTIP && options.tooltipText) {
         tooltipElement = document.createElement('x-pw-tooltip');
         this._glassPaneShadow.appendChild(tooltipElement);
         const suffix = elements.length > 1 ? ` [${i + 1} of ${elements.length}]` : '';
