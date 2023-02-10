@@ -24,6 +24,7 @@ PW_CODEGEN_NO_INSPECTOR=1 npx playwright codegen --output-json ./outputJson.json
 - `PW_LAUNCHER_ENV`: passes env to `launchContext()` (`Record<string, string>`)
 - `PW_DISABLE_CODEGEN_HEADER`: disable codegen header
 - `PW_DISABLE_CODEGEN_FOOTER`: disable codegen footer
+- `process.env.PW_BYPASS_CSP`: bypasses CSP
 
 <hr />
 

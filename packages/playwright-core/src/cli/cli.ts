@@ -419,6 +419,9 @@ async function launchContext(options: Options, headless: boolean, executablePath
     // Copy the device descriptor since we have to compare and modify the options.
     options.device ? { ...playwright.devices[options.device] } : {};
 
+  if (process.env.PW_BYPASS_CSP)
+    contextOptions.bypassCSP = true;
+
   // In headful mode, use host device scale factor for things to look nice.
   // In headless, keep things the way it works in Playwright by default.
   // Assume high-dpi on MacOS. TODO: this is not perfect.
